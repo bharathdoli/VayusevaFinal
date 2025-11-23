@@ -1,91 +1,97 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const Request = () => {
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [contact, setContact] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Prepare the data to be sent
-    const requestData = { category, description, contact };
-    console.log(requestData); // Check the data here
-  
-    try {
-      const response = await fetch('https://vayuseva.onrender.com/api/requests', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-  
-      if (response.ok) {
-        alert('Request submitted successfully!');
-        setCategory('');
-        setDescription('');
-        setContact('');
-      } else {
-        alert('Error submitting request');
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert('Error submitting request');
-    }
-  };
-  
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center pt-10 px-4">
-      <h2 className="text-3xl font-bold text-teal-600 mb-6 text-center">Request Help</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md"
-      >
-        <div className="mb-4">
-          <label className="block text-gray-700">Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="food">Food</option>
-            <option value="clothing">Clothing</option>
-            <option value="essentials">Essentials</option>
-          </select>
+    <div className="bg-background min-h-screen">
+      <div className="bg-primary text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Request Assistance</h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            We are here to help. If you or someone you know is in need of essential items or support, please fill out the form below.
+          </p>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
-            rows="4"
-            placeholder="Describe your needs"
-            required
-          ></textarea>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div className="mb-8 border-b border-gray-200 pb-6">
+            <h2 className="text-2xl font-bold text-primary mb-4">How it works</h2>
+            <ul className="list-disc list-inside space-y-2 text-gray-600">
+              <li>Fill out the form with accurate details.</li>
+              <li>Our team will verify your request within 24-48 hours.</li>
+              <li>Once verified, we will coordinate the delivery of assistance.</li>
+              <li>All information provided will be kept confidential.</li>
+            </ul>
+          </div>
+
+          <form className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary" required />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary" required />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Type of Assistance Needed</label>
+              <select className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary">
+                <option>Food / Ration</option>
+                <option>Clothing</option>
+                <option>Medical Aid</option>
+                <option>Education Support</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Current Address</label>
+              <textarea
+                rows="3"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary"
+                required
+              ></textarea>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description of Situation</label>
+              <textarea
+                rows="4"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary"
+                placeholder="Please describe your situation and specific needs..."
+                required
+              ></textarea>
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="consent"
+                  name="consent"
+                  type="checkbox"
+                  className="focus:ring-secondary h-4 w-4 text-secondary border-gray-300 rounded"
+                  required
+                />
+              </div>
+              <div className="ml-3 text-sm">
+                <label htmlFor="consent" className="font-medium text-gray-700">
+                  I consent to Vayuseva verifying the information provided.
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-secondary hover:bg-blue-600 text-white py-3 rounded-lg font-bold text-lg transition-colors shadow-md"
+            >
+              Submit Request
+            </button>
+          </form>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Contact Information</label>
-          <input
-            type="text"
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
-            placeholder="Enter your phone number or email"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700"
-        >
-          Submit Request
-        </button>
-      </form>
+      </div>
     </div>
   );
 };

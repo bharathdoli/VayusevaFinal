@@ -1,118 +1,65 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const navigate = useNavigate(); // Hook for navigation
-
   return (
-    <footer className="bg-teal-600 text-white py-8">
-      <div className="container mx-auto px-4">
-        {/* Footer Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
-          {/* About Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">About Vayuseva</h3>
-            <p className="text-sm text-teal-100">
-              Vayuseva is committed to serving communities by facilitating donations and assistance for those in need. Join us in making a difference!
+    <footer className="bg-primary text-white pt-12 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Organization Info */}
+          <div className="col-span-1 md:col-span-1">
+            <h3 className="text-2xl font-bold mb-4 text-secondary">Vayuseva</h3>
+            <p className="text-gray-300 text-sm leading-relaxed mb-4">
+              Serving humanity with compassion. We are dedicated to providing essential items to those in need and building a stronger, more supportive community.
             </p>
           </div>
 
-          {/* Links Section */}
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
-              <li>
-                <Link to="/" className="hover:text-teal-200">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-teal-200">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/donate" className="hover:text-teal-200">
-                  Donate
-                </Link>
-              </li>
-              <li>
-                <Link to="/request" className="hover:text-teal-200">
-                  Request Help
-                </Link>
-              </li>
+              <li><Link to="/about" className="text-gray-300 hover:text-secondary text-sm transition-colors">About Us</Link></li>
+              <li><Link to="/services" className="text-gray-300 hover:text-secondary text-sm transition-colors">Our Services</Link></li>
+              <li><Link to="/volunteer" className="text-gray-300 hover:text-secondary text-sm transition-colors">Volunteer</Link></li>
+              <li><Link to="/donate" className="text-gray-300 hover:text-secondary text-sm transition-colors">Donate</Link></li>
             </ul>
           </div>
 
-          {/* Contact Section */}
+          {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h4 className="text-lg font-semibold mb-4 text-white">Our Work</h4>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="mailto:bharathdoli7@gmail.com"
-                  className="hover:text-teal-200"
-                >
-                  support@vayuseva.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/_vayuseva_/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-teal-200"
-                >
-                  Instagram: @_vayuseva_
-                </a>
-              </li>
-              <li className="hover:text-teal-200">+91 6304223380</li>
+              <li className="text-gray-300 text-sm">Food Donation</li>
+              <li className="text-gray-300 text-sm">Clothing Distribution</li>
+              <li className="text-gray-300 text-sm">Emergency Relief</li>
+              <li className="text-gray-300 text-sm">Community Support</li>
             </ul>
           </div>
 
-          {/* Call to Action */}
+          {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Join Us</h3>
-            <button
-              className="bg-white text-teal-600 hover:bg-teal-500 hover:text-white py-2 px-4 rounded-full transition duration-300"
-              onClick={() => navigate("/register")}
-            >
-              Sign Up
-            </button>
+            <h4 className="text-lg font-semibold mb-4 text-white">Contact Us</h4>
+            <ul className="space-y-2">
+              <li className="flex items-start text-gray-300 text-sm">
+                <span className="mr-2">📍</span>
+                <span>123 Charity Lane, Compassion City, India</span>
+              </li>
+              <li className="flex items-center text-gray-300 text-sm">
+                <span className="mr-2">📞</span>
+                <span>+91 98765 43210</span>
+              </li>
+              <li className="flex items-center text-gray-300 text-sm">
+                <span className="mr-2">✉️</span>
+                <span>contact@vayuseva.org</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Footer Bottom Section */}
-        <div className="mt-8 border-t border-teal-500 pt-4 flex flex-col sm:flex-row justify-center items-center">
-          <div className="text-sm text-teal-100 text-center">
-            © {new Date().getFullYear()} Vayuseva. All Rights Reserved.
-          </div>
-          <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-100 hover:text-white"
-            >
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a
-              href="https://www.instagram.com/_vayuseva_/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-100 hover:text-white"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a
-              href="https://dribbble.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-100 hover:text-white"
-            >
-              <i className="fab fa-dribbble"></i>
-            </a>
-          </div>
+        <div className="border-t border-gray-700 mt-12 pt-8 text-center">
+          <p className="text-gray-400 text-sm">
+            &copy; {new Date().getFullYear()} Vayuseva. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

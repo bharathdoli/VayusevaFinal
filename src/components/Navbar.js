@@ -1,278 +1,111 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [donations, setDonations] = useState([]);
-  const [isFetchingDonations, setIsFetchingDonations] = useState(false);
-  const [showDonations, setShowDonations] = useState(false);
-  const [donationsError, setDonationsError] = useState(null);
-  const dropdownRef = useRef(null);
-  const profileRef = useRef(null);
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("authToken");
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Request Help', path: '/request' },
+    { name: 'Volunteer', path: '/volunteer' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
-      if (token) {
-        try {
-          setIsLoading(true);
-          const response = await axios.get("https://vayuseva.onrender.com/api/auth/user", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-          localStorage.removeItem("authToken");
-          setUser(null);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  const fetchDonations = async () => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      try {
-        setIsFetchingDonations(true);
-        setDonationsError(null); // Reset any previous errors
-    
-        const response = await axios.get("https://vayuseva.onrender.com/api/donations", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-  
-        const filteredDonations = response.data.filter(
-          (donation) => donation.email === user.email
-        );
-        setDonations(filteredDonations);
-        setShowDonations(true); // Open the modal to display donations
-      } catch (error) {
-        console.error("Error fetching donations:", error);
-        setDonationsError("Error fetching donations. Please try again.");
-      } finally {
-        setIsFetchingDonations(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        profileRef.current &&
-        !profileRef.current.contains(event.target)
-      ) {
-        setIsDropdownOpen(false);
-        setShowDonations(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    setUser(null);
-    setIsDropdownOpen(false);
-    setShowDonations(false);
-    navigate("/login");
-  };
-
-  if (isLoading) {
-    return (
-      <nav className="bg-teal-600 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white text-2xl font-semibold">
-            <Link to="/">Vayuseva</Link>
-          </div>
-          <div className="text-white">Loading...</div>
-        </div>
-      </nav>
-    );
-  }
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-teal-600 p-4">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        {/* Logo */}
-        <div className="text-white text-2xl font-semibold mb-4 md:mb-0 flex justify-between w-full md:w-auto">
-          <Link to="/">Vayuseva</Link>
+    <nav className="bg-white shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              {/* Placeholder for Logo */}
+              <span className="text-2xl font-bold text-primary">Vayuseva</span>
+            </Link>
+          </div>
 
-          {/* Hamburger Menu (Only on mobile) */}
-          <button
-            className="block md:hidden text-white"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${isActive(link.path)
+                    ? 'text-secondary font-bold'
+                    : 'text-gray-700 hover:text-secondary'
+                  }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link
+              to="/donate"
+              className="bg-accent hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 shadow-sm"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </div>
+              Donate Now
+            </Link>
+          </div>
 
-        {/* Menu Links (on Desktop & Mobile) */}
-        <div className={`md:flex ${isOpen ? "block" : "hidden"} md:items-center`}>
-          <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 text-white text-left">
-            <li>
-              <Link to="/" className="hover:text-teal-200">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="hover:text-teal-200">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link to="/donate" className="hover:text-teal-200">
-                Donate
-              </Link>
-            </li>
-            <li>
-              <Link to="/request" className="hover:text-teal-200">
-                Request Help
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:text-teal-200">
-                Contact Us
-              </Link>
-            </li>
-
-            {!user ? (
-              <>
-                <li>
-                  <Link to="/login" className="hover:text-teal-200">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/register" className="hover:text-teal-200">
-                    Register
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <div className="flex items-center space-x-2 relative" ref={profileRef}>
-                <img
-                  src={`https://ui-avatars.com/api/?name=${user.name}&background=random&size=256`}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full cursor-pointer"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                />
-                <span
-                  className="text-white cursor-pointer"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  {user.name}
-                </span>
-
-                {isDropdownOpen && (
-                  <div
-                    ref={dropdownRef}
-                    className="absolute bg-white text-black mt-2 rounded shadow-lg w-60 z-50"
-                    style={{
-                      top: "100%",
-                      left: "0%",
-                      transform: "translateX(-50%)", // Center the dropdown
-                    }}
-                  >
-                    <ul>
-                      <li className="px-4 py-2 font-semibold border-b">
-                        {user.name}
-                      </li>
-                      <li className="px-4 py-2 text-sm text-gray-600">{user.email}</li>
-                      <li
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => navigate("/changepassword")}
-                      >
-                        Change Password
-                      </li>
-                      <li
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={fetchDonations}
-                      >
-                        My Donations
-                      </li>
-                      <li
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-600 hover:text-red-700"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </li>
-                    </ul>
-                  </div>
+          {/* Mobile menu button */}
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-secondary focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                {isOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
-              </div>
-            )}
-          </ul>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      {showDonations && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-2xl">
-            <h2 className="text-xl font-bold mb-4">My Donations</h2>
-            {isFetchingDonations ? (
-              <p>Loading donations...</p>
-            ) : donationsError ? (
-              <p className="text-red-600">{donationsError}</p>
-            ) : donations.length === 0 ? (
-              <p>No donations found.</p>
-            ) : (
-              <ul className="space-y-4">
-                {donations.map((donation) => (
-                  <li key={donation._id} className="p-4 border rounded-md bg-gray-100">
-                    <div>
-                      <strong>Category:</strong> {donation.category}
-                    </div>
-                    <div>
-                      <strong>Description:</strong> {donation.description}
-                    </div>
-                    <div>
-                      <strong>Contact:</strong> {donation.email} | {donation.phoneNumber}
-                    </div>
-                    <div>
-                      <strong>Date:</strong> {new Date(donation.createdAt).toLocaleDateString()}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button
-              className="mt-4 bg-teal-600 text-white px-4 py-2 rounded"
-              onClick={() => setShowDonations(false)}
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={`block px-3 py-2 rounded-md text-base font-medium ${isActive(link.path)
+                    ? 'text-secondary bg-blue-50'
+                    : 'text-gray-700 hover:text-secondary hover:bg-gray-50'
+                  }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link
+              to="/donate"
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-center bg-accent hover:bg-green-600 text-white px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 mt-4"
             >
-              Close
-            </button>
+              Donate Now
+            </Link>
           </div>
         </div>
       )}

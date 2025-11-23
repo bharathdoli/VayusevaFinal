@@ -1,110 +1,87 @@
-import React, { useEffect, useState } from "react";
-import team from '../assets/team.jpg';
+import React from 'react';
 
 const AboutUs = () => {
-  const [cards, setCards] = useState([]); // State to store card data
-
-  // Fetch cards from the backend API
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await fetch("https://vayuseva.onrender.com/api/cards");
-        if (!response.ok) throw new Error("Failed to fetch cards");
-        const data = await response.json();
-        console.log("Fetched cards:", data); // Log the fetched data
-        
-        // Sort the cards by _id or date (most recent first)
-        const sortedCards = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); /// Assuming _id has a timestamp-based order
-        setCards(sortedCards);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      }
-    };
-
-    fetchCards();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h2 className="text-3xl font-bold text-teal-600 text-center mb-6">
-        About Us
-      </h2>
+    <div className="bg-background min-h-screen">
+      {/* Hero Section */}
+      <div className="bg-primary text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">About Vayuseva</h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            We are a non-profit organization driven by a single purpose: to serve humanity with compassion and integrity.
+          </p>
+        </div>
+      </div>
 
-      <section className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h3 className="text-2xl font-semibold mb-4">Our Organization</h3>
-        <p className="text-gray-700 mb-4">
-          Vayuseva is a non-profit organization focused on uplifting the
-          underprivileged communities by providing food, clothing, medical aid,
-          and other resources. Our mission is to ensure that every person has
-          access to the basic necessities of life, regardless of their
-          circumstances.
-        </p>
-        <p className="text-gray-700 mb-4">
-          Founded by{" "}
-          <span className="font-bold px-1 py-0.5 rounded">
-            Thadaka SaiPraneeth
-          </span>
-          , we have been dedicated to improving the lives of the needy since
-          2024, reaching thousands of families across the region.
-        </p>
-        <h4 className="text-xl font-semibold">Meet Our Team</h4>
-        <p className="text-gray-700 mb-4">
-          Our team is made up of passionate individuals who work tirelessly to
-          ensure that we make a meaningful impact in our community. From
-          volunteers to staff, everyone at Vayuseva is committed to serving
-          those in need.
-        </p>
-
-        {/* Image of the team */}
-        <div className="my-8 text-center">
-          <img
-            src={team}
-            alt="Our Team"
-            className="w-full h-auto rounded-lg"
-          />
+      {/* Our Story */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="bg-gray-200 rounded-xl h-64 md:h-96 w-full flex items-center justify-center text-gray-500">
+              {/* Placeholder for Story Image */}
+              <span>[Our Story Image Placeholder]</span>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-3xl font-bold text-primary mb-6">Our Story</h2>
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              Vayuseva was born out of a simple yet powerful idea: that everyone deserves access to basic necessities.
+              What started as a small group of volunteers distributing food on weekends has grown into a dedicated
+              organization serving thousands of people across the region.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              We believe in the power of community. By connecting those who have with those who need,
+              we are building a bridge of hope and support that strengthens the very fabric of our society.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section>
-        <h3 className="text-2xl font-semibold text-teal-600 mb-6 text-center">
-          Work Done By Us
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Render cards dynamically */}
-          {cards.length > 0 ? (
-            cards.map((work) => {
-              return (
-                <div
-                  key={work._id}
-                  className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-between transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                >
-                  <img
-                    src={work.thumbnail}  // This will now contain the full Base64 string
-                    alt={work.title}
-                    className="w-full h-40 object-cover rounded-lg mb-4"
-                  />
-                  <h4 className="text-xl font-semibold mb-2 text-center">
-                    {work.title}
-                  </h4>
-                  <p className="text-gray-700 mb-4 text-center">
-                    {work.description}
-                  </p>
-                  {work.instaLink && (
-                    <a
-                      href={work.instaLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-teal-600 hover:text-teal-800"
-                    >
-                      View on Instagram
-                    </a>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <p className="text-center text-gray-700">No cards available yet.</p>
-          )}
+      {/* Mission, Vision, Values */}
+      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="p-6 bg-blue-50 rounded-xl">
+              <div className="text-4xl mb-4">🎯</div>
+              <h3 className="text-xl font-bold text-primary mb-3">Our Mission</h3>
+              <p className="text-gray-600">
+                To alleviate hunger and poverty by providing essential resources and support to underserved communities.
+              </p>
+            </div>
+            <div className="p-6 bg-green-50 rounded-xl">
+              <div className="text-4xl mb-4">👁️</div>
+              <h3 className="text-xl font-bold text-primary mb-3">Our Vision</h3>
+              <p className="text-gray-600">
+                A world where no one goes to bed hungry and every individual has the opportunity to thrive with dignity.
+              </p>
+            </div>
+            <div className="p-6 bg-purple-50 rounded-xl">
+              <div className="text-4xl mb-4">💎</div>
+              <h3 className="text-xl font-bold text-primary mb-3">Our Values</h3>
+              <p className="text-gray-600">
+                Compassion, Integrity, Transparency, and Community-First approach in everything we do.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section (Optional) */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-primary mb-4">Meet Our Team</h2>
+          <p className="text-gray-600">The dedicated individuals working behind the scenes.</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="text-center">
+              <div className="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-400">
+                <span>Photo</span>
+              </div>
+              <h4 className="font-bold text-primary">Team Member {item}</h4>
+              <p className="text-sm text-gray-500">Volunteer / Role</p>
+            </div>
+          ))}
         </div>
       </section>
     </div>
