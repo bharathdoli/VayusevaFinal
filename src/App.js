@@ -1,44 +1,26 @@
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import AboutUs from "./pages/Aboutus";
-import Services from './pages/Services';
-import Donate from './pages/Donate';
-import Request from './pages/Request';
-import Volunteer from './pages/Volunteer';
-import Login from './components/Login';
-import Register from './components/Register';
-import Footer from "./components/Footer";
+import LandingPage from './pages/LandingPage';
+import DonationsPage from './pages/DonationsPage';
+import DonatePage from './pages/DonatePage';
+import AdminPage from './pages/AdminPage';
+import ScrollToTop from './components/ScrollToTop';
 
-import AddCard from "./components/AddCard";
-import ContactUs from "./components/ContactUs";
-import ChangePassword from "./components/ChangePassword";
-
-const App = () => (
-  <Router>
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-grow">
+function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/request" element={<Request />} />
-          <Route path="/volunteer" element={<Volunteer />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
-          <Route path="/add-card" element={<AddCard />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/donations" element={<DonationsPage />} />
+          <Route path="/donate" element={<DonatePage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
-      </main>
-      <Footer />
-    </div>
-  </Router>
-);
+      </div>
+    </Router>
+  );
+}
 
 export default App;
+

@@ -1,50 +1,118 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import logo from '../assets/logo.png';
 
 const Hero = () => {
-    return (
-        <div className="relative bg-primary overflow-hidden">
-            {/* Background Pattern/Image Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-900 opacity-90"></div>
+  const [isVisible, setIsVisible] = useState(false);
 
-            {/* Optional: Add a real background image here with object-cover */}
-            {/* <img src="/path/to/hero-image.jpg" alt="Background" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-20" /> */}
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-                <div className="text-center md:text-left md:w-2/3">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                        Serving Humanity with <span className="text-secondary">Compassion</span>
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                        Vayuseva is dedicated to bridging the gap between abundance and need.
-                        Join us in our mission to provide food, clothing, and essential support
-                        to communities in need.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <Link
-                            to="/donate"
-                            className="bg-accent hover:bg-green-600 text-white px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
-                        >
-                            Donate Now
-                        </Link>
-                        <Link
-                            to="/volunteer"
-                            className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 text-center"
-                        >
-                            Join as Volunteer
-                        </Link>
-                    </div>
-                </div>
-            </div>
+  return (
+    <section id="home" className="relative min-h-screen flex flex-col justify-center pt-20 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden">
+      {/* Background Pattern - Hexagon Grid */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* 100x100 hexagon pattern */}
+        <svg 
+          className="absolute inset-0 w-full h-full opacity-40"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern 
+              id="hexagonPattern" 
+              x="0" 
+              y="0" 
+              width="100" 
+              height="86.6" 
+              patternUnits="userSpaceOnUse"
+            >
+              <polygon 
+                points="50,0 93.3,25 93.3,75 50,100 6.7,75 6.7,25" 
+                fill="none" 
+                stroke="rgba(255, 255, 255, 0.2)" 
+                strokeWidth="1.5"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hexagonPattern)" />
+        </svg>
+      </div>
 
-            {/* Decorative Element */}
-            <div className="absolute bottom-0 right-0 transform translate-y-1/4 translate-x-1/4">
-                <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#00B4D8" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-4.9C93.5,9.3,82.2,22.9,71.3,34.3C60.4,45.7,49.9,54.9,38.3,62.3C26.7,69.7,14,75.3,0.6,74.3C-12.8,73.3,-24.3,65.7,-34.7,57.3C-45.1,48.9,-54.4,39.7,-62.6,28.8C-70.8,17.9,-77.9,5.3,-76.8,-6.7C-75.7,-18.7,-66.4,-30.1,-56.3,-39.8C-46.2,-49.5,-35.3,-57.5,-23.8,-66.3C-12.3,-75.1,0.3,-75.6,12.9,-75.6" transform="translate(100 100) scale(1.1)" opacity="0.1" />
+      {/* Animated Orange Glow Background - All Corners + Center */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Top-left corner */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse -translate-x-1/2 -translate-y-1/2"></div>
+        
+        {/* Top-right corner */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/15 rounded-full blur-3xl animate-pulse translate-x-1/2 -translate-y-1/2" style={{ animationDelay: '0.5s' }}></div>
+        
+        {/* Bottom-left corner */}
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-500/18 rounded-full blur-3xl animate-pulse -translate-x-1/2 translate-y-1/2" style={{ animationDelay: '1s' }}></div>
+        
+        {/* Bottom-right corner */}
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-600/15 rounded-full blur-3xl animate-pulse translate-x-1/2 translate-y-1/2" style={{ animationDelay: '1.5s' }}></div>
+        
+        {/* Center glow */}
+        <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-orange-500/15 rounded-full blur-3xl animate-pulse -translate-x-1/2 -translate-y-1/2" style={{ animationDelay: '0.75s' }}></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto w-full z-10">
+        {/* Main Hero Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[70vh]">
+          
+          {/* Left Side - Text Content */}
+          <div className={`space-y-6 transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {/* Main Headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] text-white tracking-tight">
+              Eternal giving,{' '}
+              <span className="text-orange-500">Infinite hope</span>
+            </h1>
+            
+            {/* Subheadline */}
+            <p className="text-lg md:text-xl text-gray-400 leading-relaxed max-w-xl">
+              We are dedicated to making a positive impact through service, compassion, and innovation. Join us in building a stronger, more connected community.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <a 
+                href="#contact" 
+                className="group inline-flex items-center justify-center px-8 py-3.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-all duration-300 text-center transform hover:scale-105 shadow-lg shadow-orange-500/50"
+              >
+                Contact Us
+                <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
+              </a>
+              <a 
+                href="#about" 
+                className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-orange-500 text-orange-500 font-medium rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300 text-center transform hover:scale-105"
+              >
+                Learn More
+              </a>
             </div>
+          </div>
+
+          {/* Right Side - Logo/Visual */}
+          <div className={`relative flex items-center justify-center lg:justify-end transition-all duration-1000 delay-300 ease-out ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <div className="relative w-full max-w-md">
+              {/* Animated Orange Glow */}
+              <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+              
+              {/* Logo Container */}
+              <div className="relative rounded-3xl">
+                <img 
+                  src={logo} 
+                  alt="Vayuseva Logo" 
+                  className="w-full h-auto object-contain animate-float"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </section>
+  );
 };
 
 export default Hero;

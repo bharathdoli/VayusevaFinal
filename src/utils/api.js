@@ -1,111 +1,71 @@
+// API utility for backend communication
 import axios from 'axios';
 
-// Base URL for your backend API
-const BASE_URL = "https://vayuseva.onrender.com/api"; // Change to your server's URL
+// Use environment variable or default to localhost for development
+// For production, set REACT_APP_API_URL in your .env file
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-// Create an axios instance
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 });
 
-// Function to register a user
-export const registerUser = async (userData) => {
+// Donation API
+export const saveDonation = async (donationData) => {
   try {
-    const response = await api.post('/auth/register', userData);
-    return response.data;
+    const response = await api.post('/api/donations', donationData);
+    return { success: true, data: response.data.data || response.data };
   } catch (error) {
-    console.error('Error registering user:', error);
-    throw error.response?.data || 'Error registering user';
+    console.error('Error saving donation:', error);
+    const errorMessage = error.response?.data?.error || error.message || 'Failed to save donation';
+    return { success: false, error: errorMessage };
   }
 };
 
-// Function to login a user
-export const loginUser = async (loginData) => {
+export const getDonations = async () => {
   try {
-    const response = await api.post('/auth/login', loginData);
-    return response.data;
+    const response = await api.get('/api/donations');
+    return { success: true, data: response.data.data || response.data || [] };
   } catch (error) {
-    console.error('Error logging in user:', error);
-    throw error.response?.data || 'Error logging in user';
+    console.error('Error getting donations:', error);
+    const errorMessage = error.response?.data?.error || error.message || 'Failed to fetch donations';
+    return { success: false, data: [], error: errorMessage };
   }
 };
 
-// Function to get the current user (requires authentication)
-export const getCurrentUser = async (token) => {
+// Contact API
+export const saveContact = async (contactData) => {
   try {
-    const response = await api.get('/auth/user', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    return response.data;
+    const response = await api.post('/api/contacts', contactData);
+    return { success: true, data: response.data.data || response.data };
   } catch (error) {
-    console.error('Error fetching current user:', error);
-    throw error.response?.data || 'Error fetching current user';
+    console.error('Error saving contact:', error);
+    const errorMessage = error.response?.data?.error || error.message || 'Failed to save contact';
+    return { success: false, error: errorMessage };
   }
 };
 
-// Function to fetch all users (admin-only)
-export const getAllUsers = async (token) => {
+export const getContacts = async () => {
   try {
-    const response = await api.get('/admin/users', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    return response.data;
+    const response = await api.get('/api/contacts');
+    return { success: true, data: response.data.data || response.data || [] };
   } catch (error) {
-    console.error('Error fetching users:', error);
-    throw error.response?.data || 'Error fetching users';
+    console.error('Error getting contacts:', error);
+    const errorMessage = error.response?.data?.error || error.message || 'Failed to fetch contacts';
+    return { success: false, data: [], error: errorMessage };
   }
 };
 
-// Function to delete a user (admin-only)
-export const deleteUser = async (userId, token) => {
+// Clear all data
+export const clearAllData = async () => {
   try {
-    const response = await api.delete(`/admin/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    return response.data;
+    const response = await api.delete('/api/clear');
+    return { success: true, message: response.data.message };
   } catch (error) {
-    console.error('Error deleting user:', error);
-    throw error.response?.data || 'Error deleting user';
+    console.error('Error clearing data:', error);
+    return { success: false, error: error.message };
   }
 };
 
-// Function to create a new user (admin-only)
-export const createUser = async (userData, token) => {
-  try {
-    const response = await api.post('/admin/users', userData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error creating user:', error);
-    throw error.response?.data || 'Error creating user';
-  }
-};
-
-// Function to update user details (admin-only)
-export const updateUser = async (userId, userData, token) => {
-  try {
-    const response = await api.put(`/admin/users/${userId}`, userData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error updating user:', error);
-    throw error.response?.data || 'Error updating user';
-  }
-};
-
-export default api;
